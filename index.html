@@ -33,41 +33,62 @@
 			<div class="row">
 
 				<div class="col-md-12 mb-4">
+					<h4>Nowe zadanie</h4>
 					<div class="row">
-						<div class="col-md-8">
+						<div class="col-md-9">
 							<input type="text" class="form-control" placeholder="Treść" v-model="input.name">
+							<textarea class="form-control" rows="5" style="margin-top: 20px;" placeholder="Opis" v-model="input.description"></textarea>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<button type="submit" class="btn btn-primary" style="width: 100%;" @click="addData">Dodaj</button>
 						</div>
 					</div>
 				</div>
 				
 				<div class="col-md-12 mb-4">
+					<h4>Niezapisane zadania</h4>
 					<div class="card">
 						<draggable class="list-group list-group-flush" :list="tableTmp" :options="{group:'people'}" style="min-height: 40px;">
-							<li v-for="item in tableTmp" class="list-group-item">{{ item.name }} <span class="btn btn-danger btn-sm float-right" @click="removeItem(item, tableTmp)">DELETE</span></li>
+							<li v-for="item in tableTmp" class="list-group-item">
+								{{ item.name }}
+								<div class="float-right">
+									<span class="btn btn-success btn-sm" @click="removeItem(item, tableTmp)">INFO</span>
+									<span class="btn btn-danger btn-sm" @click="removeItem(item, tableTmp)">DELETE</span> 
+								</div>
+							</li>
 						</draggable>
 					</div>
 				</div>
 
 				<div class="col-md-6 mb-4">
+					<h4>TODO</h4>
 					<div class="card">
-						<draggable class="list-group list-group-flush" :list="tableLeft" :options="{group:'people'}" @add="saveData" style="min-height: 40px;">
-							<li v-for="item in tableLeft" class="list-group-item">{{ item.name }} <span class="btn btn-danger btn-sm float-right" @click="removeItem(item, tableLeft)">DELETE</span></li>
+						<draggable class="list-group list-group-flush" :list="table.left" :options="{group:'people'}" @add="saveData" style="min-height: 40px;">
+							<li v-for="item in table.left" class="list-group-item">
+								{{ item.name }} 
+								<div class="float-right">
+									<span class="btn btn-success btn-sm" @click="removeItem(item, tableTmp)">INFO</span>
+									<span class="btn btn-danger btn-sm" @click="removeItem(item, tableTmp)">DELETE</span> 
+								</div>
+							</li>
 						</draggable>
 					</div>
 				</div>
 
 				<div class="col-md-6 mb-4">
+					<h4>DONE</h4>
 					<div class="card">
-						<draggable class="list-group list-group-flush" :list="tableRight" :options="{group:'people'}" @add="saveData" style="min-height: 40px;">
-							<li v-for="item in tableRight" class="list-group-item">{{ item.name }} <span class="btn btn-danger btn-sm float-right" @click="removeItem(item, tableRight)">DELETE</span></li>
+						<draggable class="list-group list-group-flush" :list="table.right" :options="{group:'people'}" @add="saveData" style="min-height: 40px;">
+							<li v-for="item in table.right" class="list-group-item">
+								{{ item.name }} 
+								<div class="float-right">
+									<span class="btn btn-success btn-sm" @click="removeItem(item, tableTmp)">INFO</span>
+									<span class="btn btn-danger btn-sm" @click="removeItem(item, tableTmp)">DELETE</span> 
+								</div>
+							</li>
 						</draggable>
 					</div>
 				</div>
-
-				<div class="btn" @click="saveData">SAVE</div>
 
 			</div>
 		</div>
@@ -75,18 +96,6 @@
 	</div>
 
 	<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
-	<script>
-	// Initialize Firebase
-	var config = {
-		apiKey: "AIzaSyD7ALusywZ9jrF7wmfLuOXFLxUNy4_8fUU",
-		authDomain: "fir-test-sortable.firebaseapp.com",
-		databaseURL: "https://fir-test-sortable.firebaseio.com",
-		projectId: "fir-test-sortable",
-		storageBucket: "",
-		messagingSenderId: "350484940729"
-	};
-	firebase.initializeApp(config);
-	</script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>

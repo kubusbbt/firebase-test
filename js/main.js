@@ -1,61 +1,76 @@
 
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyD7ALusywZ9jrF7wmfLuOXFLxUNy4_8fUU",
+    authDomain: "fir-test-sortable.firebaseapp.com",
+    databaseURL: "https://fir-test-sortable.firebaseio.com",
+    projectId: "fir-test-sortable",
+    storageBucket: "",
+    messagingSenderId: "350484940729"
+};
+firebase.initializeApp(config);
+
+var db = firebase.database().ref('test')
+
 new Vue({
     el: '#app',
 	data: {
         input: {},
         tableTmp: [],
-        tableLeft: [],
-        tableRight: [],
+
+        table: {
+            left: [],
+            right: []
+        },
 
 		dragging: true
     },
     mounted: function(){
-
-        // this.saveData();
-        // this.getData();
-
+        this.getData();
     },
     methods: {
+
         addData: function() {
             this.tableTmp.push(this.input);
             this.input = {};
         },
+
         removeItem: function(item, table) {
             let index = table.indexOf(item)
             table.splice(index, 1)
+            this.saveData()
         },
+
         saveData: function() {
 
-            var tableLeft = this.tableLeft;
+            // firebase.database().ref('clients/2').set({
+            //     username: 'kuba',
+            //     email: 'asda@as.pl'
+            // });
 
-            var database = firebase.database();
-            var ref = database.ref();
-            ref.on('value', gotData, errData);
-            
-            function gotData(data){
-                // console.log( data.val() );
-                return firebase.database().ref().set( tableLeft );
-                // return firebase.database().ref().update( dddd );
-            }
-            function errData(err){
-                console.log(err);
-            }
+            db.set( this.table )
 
         },
+
         getData: function() {
-            var database = firebase.database();
-            var ref = database.ref();
-            ref.on('value', gotData, errData);
-            
-            var tableLeft = this.tableLeft;
-            
-            function gotData(data){
-                // return data.val();
-                console.log( data.val() )
-            }
-            function errData(err){
-                console.log(err);
-            }
+
+            var tableLeft = this.table.left;
+            var tableRight = this.table.right;
+ 
+            db.once('value').then(function(data) {
+                data = data.val()
+
+                if( data ){
+                    if( data.left ){
+                        tableLeft.push( ...data.left );
+                    }
+                    if( data.right ){
+                        tableRight.push( ...data.right );
+                    }
+                }
+            });
+
         }
+
     }
 })
